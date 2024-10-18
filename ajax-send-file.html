@@ -3,25 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AJAX Send Form</title>
+    <title>AJAX Send File</title>
   </head>
   <body>
+    <h1>Register</h1>
     <form>
       <label for="username"
         >username:
         <input type="text" name="username" id="username" />
       </label>
       <br />
-      <label for="password"
-        >password:
-        <input type="password" name="password" id="password" />
+      <label for="name"
+        >name:
+        <input type="text" name="name" id="name" />
       </label>
       <br />
-      <input type="button" id="login" value="Login" />
+      <label for="profile"
+        >profile:
+        <input type="file" name="profile" id="profile" />
+      </label>
+      <br />
+      <input type="button" id="register" value="Register" />
     </form>
     <h1 id="response"></h1>
     <script>
-      function doLogin() {
+      function doRegister() {
         const ajax = new XMLHttpRequest();
         ajax.open("POST", "https://eo12uwg2ospdi0.m.pipedream.net");
         ajax.onload = function () {
@@ -30,14 +36,18 @@
         };
         ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        const form = new URLSearchParams();
+        const form = new FormData();
         form.append("username", document.getElementById("username").value);
-        form.append("password", document.getElementById("password").value);
+        form.append("name", document.getElementById("name").value);
+
+        const files = document.getElementById("profile").files;
+        const firstFile = files.item(0);
+        form.append("profile", firstFile);
 
         ajax.send(form);
       }
 
-      document.getElementById("login").onclick = doLogin;
+      document.getElementById("register").onclick = doRegister;
     </script>
   </body>
 </html>
